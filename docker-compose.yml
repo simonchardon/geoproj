@@ -1,0 +1,33 @@
+version: "3"
+services:
+  frontend:
+    container_name: awesome_web
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: vikasraj/awesome_web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/src/app
+    stdin_open: true
+  backend:
+    container_name: awesome_server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: vikasraj/awesome_server
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - ./server:/usr/src/app
+  pg:
+    image: "mdillon/postgis"
+    container_name: "postgres"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+
